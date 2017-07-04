@@ -1,2 +1,2 @@
 good good study,day day up!
-where are you going?
+where is you going?
