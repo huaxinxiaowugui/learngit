@@ -15,6 +15,11 @@
 	git config --global user.name "Your Name"
 	注册邮箱:
 	git config --global user.mail "email@example.com"
+	让Git显示颜色
+	git config --global color.ui true
+	配置别名
+	git config --global alias.st status  
+		git status  相当于  git st
 	
 	创建仓库	git init 
 	添加文件	git add 文件名(带后缀)
@@ -98,8 +103,88 @@
 		git log --graph --pretty=oneline --abbrev-commit
 			展示分支的合并情况(分支合并图)
 	
+	分组合并策略
+		
+		git merge --no-ff -m "提交说明" dev
+		合并分支时，加上--no-ff参数就可以用普通模式合并,合并后的历史有分支,能看出来曾经做过合并,而fast forward合并就看不出来曾经做过合并.
 	
+	Bug修复
+		git stash  将当前工作现场储藏起来
+		git stash apply  恢复stash内容并不删除
+			需要用git stash drop来删除
+		git stash pop	恢复的同时并把stash内容删除
+		git stash list  查看stash内容
+		git stash apply@{0} 恢复指定的stash内容
+		
+	强制删除分支
+		没有合并的分支,强制删除
+		git branch -D featurel
 	
+	多人协作:
+		git remote  查看远程库信息
+		git remote -v  显示更详细的信息
+	推送分支
+		git push origin master  将该分支的所有本地分支的推送到远程库
+		git push origin dev  推送其他分支
+	抓取分支
+		git clone git@github.com:用户名/远程地址  克隆库
+		git checkout -b dev origin/dev     创建远程origin的dev分支到本地
+		
+		git push origin 分支  推送自己的修改
+		失败的话:
+			git pull  更新远程分支与本地
+		又失败的话:(远程与本地没有连接)
+			git branch --set-upstream 分支 origin/分支
+				
+7:标签管理
+	发布一个版本时,我们通常先在版本库中打一个标签(tag),这样,就唯一确定了打标签时刻的版本.将来无论什么时候,取某个标签的版本,就是把那个打标签的时刻的历史版本取出来.所以,标签也是版本库的一个快照。
+	
+	git tag 版本号(v1.0)   打标签
+	git tag v1.0 commit_id   对之前提交的文件打标签
+	git tag  查看标签
+	git show v1.0   查看标签
+	git tag -a v1.0 -m "标签说明" commit_id  指定标签名,标签说明
+	git tag -s v2.0 -m "标签说明" commit_id  签名采用PGP签名
+	
+	操作标签
+		git tag -d v1.0		删除本地标签
+		git push origin v1.0	推送某个标签到远程
+		git push origin --tags	推送所有标签到远程
+		
+	删除远程标签:
+		先删除本地标签
+			git tag -d v1.0
+		再删除远程标签
+			git push origin :refs/tags/v1.0
+		最后登录github去查看
+		
+8:自定义git
+	
+	忽略一些不必上传的文件,在工作区创建一个文件	.gitignore
+		例如:
+			# Windows:
+			Thumbs.db
+			ehthumbs.db
+			Desktop.ini
+
+			# Python:
+			*.py[cod]
+			*.so
+			*.egg
+			*.egg-info
+			dist
+			build
+	创建完之后需要提交到远程仓库,git status 检验
+	
+	如果提交某个文件无法提交,可能是忽略文件中设置了
+			git add -f file  强制添加到Git
+		或者:
+			git check-ignore 检查问题所在
+
+
+		
+	
+		
 	
 	
 	
